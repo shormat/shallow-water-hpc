@@ -1,0 +1,24 @@
+#!/bin/bash -l
+#
+#SBATCH --exclusive
+#SBATCH --job-name="Scalasca profile"
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=4
+#SBATCH --time=01:30:00
+#SBATCH --mem-per-cpu=2000
+#SBATCH --output=scalasca_profile_%j.out
+
+# Loading Scalasca will also load OpenMPI
+module load Scalasca
+
+export OMP_PROC_BIND=true
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+
+export SRUN_CPUS_PER_TASK=${SLURM_CPUS_PER_TASK}
+
+# Submit from the repository root (where the executables are built).
+# The parameter file references h_simple.dat relative to the working directory.
+mkdir -p scalasca_run && cd scalasca_run
+cp ../params/h_simple.dat .
+
+scalasca -analyze -q -t srun ../shallow_mpi_omp ../params/param_simple_original.txt

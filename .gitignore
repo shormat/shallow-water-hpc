@@ -1,0 +1,25 @@
+# Executables
+/shallow
+/shallow_mpi
+/shallow_omp
+/shallow_mpi_omp
+/shallow_gpu
+*.o
+
+# Simulation outputs
+/run/
+*.vtk
+*.vti
+*.pvd
+
+# Slurm / profiling outputs
+*.out
+job_output_*
+results_*/
+scalasca_run/
+scorep_*/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
